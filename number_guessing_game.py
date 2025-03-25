@@ -37,7 +37,48 @@ def select_difficulty():
     return chances
 
 def play_game():
+    display_welcome()
+    chances = select_difficulty()
+    
+    target_number = random.randint(1, 100)
+    attempts = 0
+
+    while attempts < chances:
+        try:
+            guess = int(input("\nEnter your guess: "))
+            attempts += 1
+            if guess == target_number:
+                print(f"Congratulations! You guessed the correct number in {attempts} attempts.")
+                return True
+            elif guess < target_number:
+                print("Incorrect! The number is greater than your guess.")
+            else:
+                print("Incorrect! The number is less than your guess.")
+            remaining = chances - attempts
+            if remaining > 0:
+                print(f"You have {remaining} chances left.")            
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    print(f"\nGame Over! You've run out of chances. The number was {target_number}.")
+    return False
 
 def play_again():
+    while True:
+        choice = input("\nDo you want to play again? (yes/no): ").lower()
+        if choice in ['yes', 'y']:
+            return True
+        elif choice in ['no', 'n']:
+            return False
+        else:
+            print("Invalid input. Please enter 'yes' or 'no'.")
 
 def main():
+    while True:
+        play_game()
+        if not play_again():
+            print("\nThank you for playing the Number Guessing Game. Goodbye!")
+            break
+
+if __name__ == "__main__":
+    main()
